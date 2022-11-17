@@ -6,6 +6,9 @@ import {
   Play_400Regular,
   Play_700Bold
 } from '@expo-google-fonts/play';
+import Header from './src/components/Header';
+
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,24 +21,15 @@ export default function App() {
   } else {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Hello Semana DevSuperior! </Text>
+        <Header />
         <StatusBar style="light" />
       </View>
     );
   }
-
-  
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  text: {
-    color: '#FFF',
-    fontSize: 50
-  }
 });
