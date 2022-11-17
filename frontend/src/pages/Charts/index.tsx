@@ -45,7 +45,6 @@ function Charts() {
         getData();
     }, []);
 
-
     return (
         <div className="page-container">
             <Filters 
