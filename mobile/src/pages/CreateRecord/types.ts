@@ -1,0 +1,1 @@
+export type GamePlatform = 'X-BOX' | 'PC' | 'PLAYSTATION';
