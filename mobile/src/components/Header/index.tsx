@@ -1,10 +1,20 @@
 import { Text, StyleSheet, View, Image } from "react-native";
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import Logo from '../../assets/logo.png';
 
 function Header() {
+
+  const navigation = useNavigation();
+
+  const handleOnPress = () => {
+    navigation.navigate('Home' as never, {} as never);
+  }
+
   return (
-    <View style={styles.header}>
+    <TouchableWithoutFeedback onPress={handleOnPress}>
+      <View style={styles.header}>
         <Image 
             style={styles.tinyLogo}
             source={Logo} 
@@ -12,6 +22,8 @@ function Header() {
         <Text style={styles.textLogo1}>Big Game</Text>
         <Text style={styles.textLogo2}>Survey</Text>
     </View>
+    </TouchableWithoutFeedback>
+    
   );
   
 }
