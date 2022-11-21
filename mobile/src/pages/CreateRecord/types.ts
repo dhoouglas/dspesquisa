@@ -1,6 +1,6 @@
-export type GamePlatform = 'X-BOX' | 'PC' | 'PLAYSTATION';
+export type GamePlatform = 'XBOX' | 'PC' | 'PLAYSTATION';
 
-export type Game ={
+export type Game = {
     id: number;
     title: string;
     platform: GamePlatform;
