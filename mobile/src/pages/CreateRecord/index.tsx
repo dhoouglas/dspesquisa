@@ -1,15 +1,42 @@
-import { useState } from 'react';
-import { Text, StyleSheet, View, TextInput } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View, TextInput } from 'react-native';
 import Header from '../../components/Header';
 import PlatformCard from './PlatformCard';
-import { GamePlatform } from './types';
+import { Game, GamePlatform } from './types';
+import RNPickerSelect from 'react-native-picker-select';
+import axios from 'axios';
+
+const placeholder = {
+    label: 'Selecione o game',
+    value: null
+}
+
+const BASE_URL = "http://192.168.6.152:8080";
+
+const mapSelectValues = (games: Game[]) => {
+  return games.map(game => ({
+    ...game,
+    label: game.title,
+    value: game.id
+  }));
+}
 
 function CreateRecord() {
     const [platform, setPlatform] = useState<GamePlatform>();
-
+    const [selectedGame, setSelectedGame] = useState('');
+    const [allGames, setAllGames] = useState<Game[]>([]);
+;
     const handleChangePlatform = (selectedPlatform: GamePlatform) => {
         setPlatform(selectedPlatform);
     }
+
+    useEffect(() => {
+      axios.get(`${BASE_URL}/games`)
+        .then(response => {
+          const selectValues = mapSelectValues(response.data);
+          setAllGames(selectValues);
+        })
+    }, []);
 
     return(
         <>
@@ -34,11 +61,57 @@ function CreateRecord() {
                 <PlatformCard platform='X-BOX' icon="xbox" onChange={handleChangePlatform} activePlatform={platform}/>
                 <PlatformCard platform='PLAYSTATION' icon="playstation" onChange={handleChangePlatform} activePlatform={platform}/>
             </View>
-            
+
+            <RNPickerSelect
+                style={pickSelectStyles}
+                onValueChange={value => {
+                    setSelectedGame(value);
+                }}
+                placeholder={placeholder}
+                items={allGames}
+                
+                
+            />
             </View>
         </>
     );
 }
+
+const pickSelectStyles = StyleSheet.create(
+    {
+        inputIOS: {
+          fontSize: 16,
+          paddingVertical: 12,
+          paddingHorizontal: 20,
+          backgroundColor: '#FFF',
+          borderRadius: 10,
+          color: '#ED7947',
+          paddingRight: 30,
+          fontFamily: "Play_700Bold",
+          height: 50
+        },
+        inputAndroid: {
+          fontSize: 16,
+          paddingVertical: 12,
+          paddingHorizontal: 20,
+          backgroundColor: '#FFF',
+          borderRadius: 10,
+          color: '#ED7947',
+          paddingRight: 30,
+          fontFamily: "Play_700Bold",
+          height: 50
+        },
+        placeholder: {
+          color: '#9E9E9E',
+          fontSize: 16,
+          fontFamily: "Play_700Bold",
+        },
+        iconContainer: {
+          top: 10,
+          right: 12,
+        }
+      }
+);
 
 const styles = StyleSheet.create(
     {
